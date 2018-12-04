@@ -4,10 +4,16 @@ using System.Text;
 
 namespace Project0.Library
 {
-    class Pizza : IVictual
+    public class Pizza : IVictual
     {
         public string Name { get ; set ; }
         public decimal Price { get ; set ; }
+
+        public Pizza(string name, decimal price)
+        {
+            Name = name;
+            Price = price;
+        }
 
     }
 }
