@@ -66,7 +66,7 @@ namespace Project0.Library
 
         public List<Location> DeserializeLocation()
         {
-            List<Location> result = new List<Location>;
+            List<Location> result = new List<Location>();
             using (var locfs = new FileStream(LocFile,FileMode.Open))
             {
                 result = (List<Location>)LocSer.Deserialize(locfs);
