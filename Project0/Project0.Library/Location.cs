@@ -8,17 +8,18 @@ namespace Project0.Library
     public class Location
     {
         public string Name;
-        public Dictionary<IVictual,int> Inventory { get; set; }
+        //was Dictionary<IVictual,int> had to make List<KeyValuePair<IVictual,int>> for serialization
+        public List<KeyValuePair<IVictual, int>> Inventory { get; set; }
         public List<Order> OrderHistory { get; set; }
 
-        public Location(string name, Dictionary<IVictual,int> inventory, List<Order> orderHistory)
+        public Location(string name, List<KeyValuePair<IVictual, int>> inventory, List<Order> orderHistory)
         {
             Name = name;
             Inventory = inventory;
             OrderHistory = orderHistory;
         }
 
-        public Location(string name, Dictionary<IVictual, int> inventory)
+        public Location(string name, List<KeyValuePair<IVictual, int>> inventory)
         {
             Name = name;
             Inventory = inventory;
@@ -27,7 +28,14 @@ namespace Project0.Library
         public Location(string name)
         {
             Name = name;
-            Inventory = new Dictionary<IVictual, int>();
+            Inventory = new List<KeyValuePair<IVictual, int>>();
+            OrderHistory = new List<Order>();
+        }
+
+        public Location()
+        {
+            Name = null;
+            Inventory = new List<KeyValuePair<IVictual, int>>();
             OrderHistory = new List<Order>();
         }
 

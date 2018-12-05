@@ -25,6 +25,17 @@ namespace Project0.Library
             Location.PlaceOrder(this);
         }
 
+        //serializing order is going to break everything
+        //going to have to do this another way, maybe ...
+        //don't know thinkabout this
+        public Order()
+        {
+            Location = new Location();
+            User = new User();
+            OrderTime = new DateTime();
+            Contents = new List<IVictual>();
+        }
+
 
         /*
         public override bool Equals(object obj)

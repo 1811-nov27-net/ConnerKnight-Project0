@@ -9,7 +9,7 @@ namespace Project0.Library
     /// <summary>
     /// manages the serialization and deserialization of data for the whole solution
     /// </summary>
-    class DataManager
+    public class DataManager
     {
         private XmlSerializer UserSer;
         private XmlSerializer LocSer;

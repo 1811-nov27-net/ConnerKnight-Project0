@@ -13,6 +13,13 @@ namespace Project0.Library
         public string LastName { get; set; }
         public List<Order> OrderHistory;
 
+        public User()
+        {
+            FirstName = null;
+            LastName = null;
+            OrderHistory = new List<Order>();
+        }
+
         public User(string firstName, string lastName, List<Order> orderHistory = null)
         {
             FirstName = firstName;
