@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Project0.Library
 {
-    public class Location
+    public class Location : IHistoryable
     {
         public string Name;
         //was Dictionary<IVictual,int> had to make List<KeyValuePair<IVictual,int>> for serialization
@@ -44,6 +44,7 @@ namespace Project0.Library
             OrderHistory.Add(o);
         }
 
+        /*
         public List<Order> EarliestOrderedHistory()
         {
             return OrderHistory.OrderBy(h => h.OrderTime).ToList();
@@ -63,5 +64,6 @@ namespace Project0.Library
         {
             return OrderHistory.OrderByDescending(h => h.Price).ToList();
         }
+        */
     }
 }

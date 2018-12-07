@@ -41,6 +41,15 @@ namespace Project0.App
                         Console.WriteLine("Enter the name of the restaurant you would like to order from");
                         input = Console.ReadLine();
                         Location chosenLocation = Locations.Where(a => a.Name.Equals(input)).First();
+                        List < KeyValuePair<IVictual, int> > menu = chosenLocation.Inventory.ToList();
+                        for(int i = 0; i < menu.Count; i++)
+                        {
+                            Console.WriteLine($"Press {i} to choose {menu[i].Key.Name}, num remaining: {menu[i].Value}");
+                        }
+                        input = Console.ReadLine();
+                        int numPressed = int.Parse(input);
+                        Order ChosenOrder = new Order(chosenLocation,currentUser,DateTime.Now,new List<IVictual> { menu[numPressed].Key});
+
                     }
 
                 }

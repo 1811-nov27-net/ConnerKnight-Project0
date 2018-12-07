@@ -21,8 +21,6 @@ namespace Project0.Library
             OrderTime = ot;
             Contents = c;
             Price = Contents.Sum(s => s.Price);
-            User.PlaceOrder(this);
-            Location.PlaceOrder(this);
         }
 
         //serializing order is going to break everything
@@ -36,6 +34,17 @@ namespace Project0.Library
             Contents = new List<IVictual>();
         }
 
+        public void PlaceOrder()
+        {
+            if(Contents.Count > 12)
+            {
+                throw new BadOrderException("size of the order exceeded 12 items")
+            }
+            else if(Price > 500)
+            {
+                //...
+            }
+        }
 
         /*
         public override bool Equals(object obj)

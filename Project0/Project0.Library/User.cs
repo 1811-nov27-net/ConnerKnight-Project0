@@ -7,11 +7,13 @@ namespace Project0.Library
     /// <summary>
     /// represents someone who places Orders at a Location
     /// </summary>
-    public class User
+    public class User : IHistoryable
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<Order> OrderHistory;
+        public Location DefaultLocation { get; set; }
+        public List<Order> OrderHistory { get; set; }
+        //public List<Order> OrderHistory;
 
         public User()
         {
@@ -36,7 +38,19 @@ namespace Project0.Library
 
             public void PlaceOrder(Order o)
         {
-            OrderHistory.Add(o);
+            //do the two hour check
+            double twoHoursInSeconds = 60 * 60 * 2;
+            bool checkOrder = OrderHistory.Where(a => a.OrderTime.Subtract(o.OrderTime).TotalSeconds > (twoHoursInSeconds))
+                .Any(b => b.Location.Equals(o.Location));
+            if(checkOrder)
+            {
+                OrderHistory.Add(o);
+            }
+            else
+            {
+                throw new BadOrderException("order was placed within two hours of another order at the same location")
+            }
+            
         }
 
         public Order SuggestedOrder()
@@ -44,14 +58,19 @@ namespace Project0.Library
             //returns the most recent
             if(OrderHistory != null && OrderHistory.Count > 0)
             {
-                return OrderHistory[OrderHistory.Count - 1];
+                //return OrderHistory[OrderHistory.Count - 1];
+                Order result = (Order)OrderHistory.GroupBy(o => o).OrderByDescending(og => og.Count()).First();
+                return result;
             }
             return null;
             //other option
-            //OrderHistory.GroupBy(o => o).Max(m => m.Count()).Select(r => r.Key)
+            //OrderHistory.GroupBy(o => o).Select(r => r.Key).OrderBy()
+            //Order result = (Order)OrderHistory.GroupBy(o => o).OrderByDescending(og => og.Count()).First();
+            //return result;
         }
 
         //display order history sorted by earliest, latest, cheapest, most expensive
+        /*
         public List<Order> EarliestOrderedHistory()
         {
             return OrderHistory.OrderBy(h => h.OrderTime).ToList();
@@ -71,5 +90,6 @@ namespace Project0.Library
         {
             return OrderHistory.OrderByDescending(h => h.Price).ToList();
         }
+        */
     }
 }
