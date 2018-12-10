@@ -8,6 +8,7 @@ namespace Project0.Library
 
     public class Pizza : IVictual
     {
+        public int PizzaId { get; set; }
         public string Name { get ; set ; }
         public decimal Price { get ; set ; }
         public List<Ingredient> RequiredIng { get; set; }

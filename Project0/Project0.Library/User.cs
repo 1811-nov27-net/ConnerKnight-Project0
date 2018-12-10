@@ -9,20 +9,21 @@ namespace Project0.Library
     /// </summary>
     public class User : IHistoryable
     {
+        public int UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Location DefaultLocation { get; set; }
         public List<Order> OrderHistory { get; set; }
 
         //not using XML so don't need this onstructor
-        /*
+        
         public User()
         {
             FirstName = null;
             LastName = null;
             OrderHistory = new List<Order>();
         }
-        */
+        
 
 
         //wouldn't concievably ever use this constructor

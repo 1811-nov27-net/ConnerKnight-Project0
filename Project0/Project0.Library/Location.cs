@@ -10,8 +10,8 @@ namespace Project0.Library
 
     public class Location : IHistoryable
     {
-        
-        public string Name;
+        public int LocationId { get; set; }
+        public string Name { get; set; }
         //was Dictionary<IVictual,int> had to make List<KeyValuePair<IVictual,int>> for serialization
         public Dictionary<Ingredient, int> Inventory { get; set; }
         //made it so only pizzas could be ordered
@@ -59,7 +59,7 @@ namespace Project0.Library
         }
 
         //not necesary if not using XML
-        /*
+        //needed for SQL
         public Location()
         {
             Name = null;
@@ -67,7 +67,7 @@ namespace Project0.Library
             Menu = new List<Pizza>();
             OrderHistory = new List<Order>();
         }
-        */
+        
 
         public void PlaceOrder(Order o, Dictionary<Ingredient, int> orderIngredients)
         {

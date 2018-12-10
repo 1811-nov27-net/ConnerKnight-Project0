@@ -7,7 +7,7 @@ namespace Project0.Library
 {
     public class Order
     {
-
+        public int OrderId { get; set; }
         public Location Location { get; set; }
         public User User { get; set; }
         public DateTime OrderTime { get; set; }
