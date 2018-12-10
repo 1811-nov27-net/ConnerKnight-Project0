@@ -13,7 +13,9 @@ namespace Project0.DataAccess
         public int UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int? DefaultLocationId { get; set; }
 
+        public virtual Location DefaultLocation { get; set; }
         public virtual ICollection<Order> Order { get; set; }
     }
 }

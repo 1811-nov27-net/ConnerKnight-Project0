@@ -1,19 +1,20 @@
 
 CREATE SCHEMA PZ;
 GO
-DROP TABLE PZ.Content
 
+
+DROP TABLE PZ.ContentIngredient
+DROP TABLE PZ.Locationingredient
+DROP TABLE PZ.Ingredient
+DROP TABLE PZ.OrderContent
+DROP TABLE PZ.[Order]
+DROP TABLE PZ.Content
 DROP TABLE PZ.[User]
 DROP TABLE PZ.[Location]
 
 
 
-CREATE TABLE PZ.[User](
-	UserId		INT IDENTITY(1,1),
-	FirstName	NVARCHAR(100),
-	LastName	NVARCHAR(100),
-	CONSTRAINT	PK_User PRIMARY KEY (UserId)
-);
+
 
 --select * from PZ.[User]
 
@@ -21,6 +22,16 @@ CREATE TABLE PZ.[Location](
 	LocationId	INT IDENTITY(1,1),
 	Name		NVARCHAR(100),
 	CONSTRAINT	PK_Location PRIMARY KEY (LocationId)
+);
+
+CREATE TABLE PZ.[User](
+	UserId		INT IDENTITY(1,1),
+	FirstName	NVARCHAR(100),
+	LastName	NVARCHAR(100),
+	DefaultLocationId	INT,
+	CONSTRAINT	PK_User PRIMARY KEY (UserId),
+	CONSTRAINT	FK_UserLocation FOREIGN KEY (DefaultLocationId) REFERENCES PZ.[Location](LocationId),
+
 );
 
 CREATE TABLE PZ.Content(
@@ -52,6 +63,15 @@ CREATE TABLE PZ.Ingredient(
 	IngredientId	INT	IDENTITY(1,1),
 	Name		NVARCHAR(100),
 	CONSTRAINT PK_Ingredient PRIMARY KEY (IngredientId)
+);
+
+CREATE TABLE PZ.Locationingredient(
+	IngredientId	INT,
+	LocationId		INT,
+	Quantity		INT,
+	CONSTRAINT PK_LocationIngredient PRIMARY KEY (IngredientId,LocationId),
+	CONSTRAINT	FK_LocationIngredientIngredient FOREIGN KEY (IngredientId) REFERENCES PZ.Ingredient(IngredientId),
+	CONSTRAINT	FK_LocationIngredientLocation FOREIGN KEY (LocationId) REFERENCES PZ.[Location](LocationId),
 );
 
 CREATE TABLE PZ.ContentIngredient(

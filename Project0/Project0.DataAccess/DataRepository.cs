@@ -37,9 +37,27 @@ namespace Project0.DataAccess
             db.Remove(db.Location.Find(location.LocationId));
         }
 
+
         public void AddOrder(Library.Order order)
         {
-            db.Add(Mapper.Map(order));
+            try
+            {
+                Library.OrderManager.PlaceOrder(order);
+                //dont know if this will work
+                User u = db.User.Find(order.User.UserId);
+                Location l = db.Location.Find(order.Location.LocationId);
+                Order o = new Order() { User = u, Location = l, OrderContent = Mapper.Map(order.Contents) };
+                db.Order.Add(o);
+
+            }
+            catch (Exception)
+            {
+
+                //do nothing
+
+            }
+            
+            //db.Add(Mapper.Map(order));
         }
 
         public void Save()

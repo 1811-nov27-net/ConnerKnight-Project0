@@ -19,6 +19,7 @@ namespace Project0.DataAccess
         public virtual DbSet<ContentIngredient> ContentIngredient { get; set; }
         public virtual DbSet<Ingredient> Ingredient { get; set; }
         public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<Locationingredient> Locationingredient { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderContent> OrderContent { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -73,6 +74,26 @@ namespace Project0.DataAccess
                 entity.Property(e => e.Name).HasMaxLength(100);
             });
 
+            modelBuilder.Entity<Locationingredient>(entity =>
+            {
+                entity.HasKey(e => new { e.IngredientId, e.LocationId })
+                    .HasName("PK_LocationIngredient");
+
+                entity.ToTable("Locationingredient", "PZ");
+
+                entity.HasOne(d => d.Ingredient)
+                    .WithMany(p => p.Locationingredient)
+                    .HasForeignKey(d => d.IngredientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LocationIngredientIngredient");
+
+                entity.HasOne(d => d.Location)
+                    .WithMany(p => p.Locationingredient)
+                    .HasForeignKey(d => d.LocationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LocationIngredientLocation");
+            });
+
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("Order", "PZ");
@@ -114,6 +135,11 @@ namespace Project0.DataAccess
                 entity.Property(e => e.FirstName).HasMaxLength(100);
 
                 entity.Property(e => e.LastName).HasMaxLength(100);
+
+                entity.HasOne(d => d.DefaultLocation)
+                    .WithMany(p => p.User)
+                    .HasForeignKey(d => d.DefaultLocationId)
+                    .HasConstraintName("FK_UserLocation");
             });
         }
     }

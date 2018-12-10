@@ -4,7 +4,11 @@ using System.Text;
 
 namespace Project0.Library
 {
-    public enum Ingredient { Pepperoni, Sausage, Pepper, Mushroom, Olive, Cinnamon, Marshmallow, Gold, Jalapeno }
+    /*
+    public struct EzIng
+    { public Ingredient Pepperoni = new Ingredient("Pepperoni");
+        Sausage, Pepper, Mushroom, Olive, Cinnamon, Marshmallow, Gold, Jalapeno }
+        */
 
     public class Pizza : IVictual
     {

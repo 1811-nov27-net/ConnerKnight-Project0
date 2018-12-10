@@ -24,6 +24,11 @@ namespace Project0.Library
             Price = Contents.Sum(s => s.Price);
         }
 
+        public Order()
+        {
+            Contents = new List<Pizza>();
+        }
+
         //serializing order is going to break everything
         //going to have to do this another way, maybe ...
         //don't know thinkabout this

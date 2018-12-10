@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Project0.DataAccess
@@ -26,7 +27,50 @@ namespace Project0.DataAccess
         {
             //Id = location.id
             Name = location.Name,
-            Inventory = Map(location.Inventory)
+            Inventory = Map(location.Locationingredient)
+        };
+
+        public static Library.Ingredient Map(Ingredient ingredient) => new Library.Ingredient
+        {
+            IngredientId = ingredient.IngredientId,
+            Name = ingredient.Name
+        };
+
+        public static Ingredient Map(Library.Ingredient ingredient) => new Ingredient
+        {
+            IngredientId = ingredient.IngredientId,
+            Name = ingredient.Name
+        };
+
+        public static ICollection<OrderContent> Map(ICollection<Library.Pizza> pizzas) => pizzas.Select(Map)
+
+        public static OrderContent Map(Library.Pizza pizza) =>
+
+            public static ICollection<Locationingredient> Map(Dictionary<Library.Ingredient, int> ingredients)
+        {
+            List<Library.Ingredient> result = new List<Library.Ingredient>();
+            foreach(KeyValuePair<Ingredient,int> in ingredients)
+            {
+                result
+            }
+
+        }
+
+        public static Location Map(Library.Location location) => new Location
+        {
+            //Id = location.id
+            Name = location.Name,
+            //Inventory = Map(location.Inventory)
+        };
+
+        public static Library.Order Map(Order order) => new Library.Order
+        {
+
+        };
+
+        public static Order Map(Library.Order order) => new Order
+        {
+
         };
 
 
