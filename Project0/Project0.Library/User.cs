@@ -13,54 +13,62 @@ namespace Project0.Library
         public string LastName { get; set; }
         public Location DefaultLocation { get; set; }
         public List<Order> OrderHistory { get; set; }
-        //public List<Order> OrderHistory;
 
+        //not using XML so don't need this onstructor
+        /*
         public User()
         {
             FirstName = null;
             LastName = null;
             OrderHistory = new List<Order>();
         }
+        */
 
-        public User(string firstName, string lastName, List<Order> orderHistory = null)
+
+        //wouldn't concievably ever use this constructor
+        /*
+        public User(string firstName, string lastName, List<Order> orderHistory)
         {
             FirstName = firstName;
             LastName = lastName;
-            if(orderHistory == null)
-            {
-                OrderHistory = new List<Order>();
-            }
-            else
-            {
-                OrderHistory = orderHistory;
-            }
-        }
-
-            public void PlaceOrder(Order o)
-        {
-            //do the two hour check
-            double twoHoursInSeconds = 60 * 60 * 2;
-            bool checkOrder = OrderHistory.Where(a => a.OrderTime.Subtract(o.OrderTime).TotalSeconds > (twoHoursInSeconds))
-                .Any(b => b.Location.Equals(o.Location));
-            if(checkOrder)
-            {
-                OrderHistory.Add(o);
-            }
-            else
-            {
-                throw new BadOrderException("order was placed within two hours of another order at the same location")
-            }
+            OrderHistory = orderHistory;
             
         }
+        */
 
+        /// <summary>
+        /// constructor to create a new User with given firstName and lastName and an empty OrderHistory
+        /// </summary>
+        /// <param name="firstName"> the FirstName of the new user</param>
+        /// <param name="lastName"> the LastName of the new user</param>
+        public User(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            OrderHistory = new List<Order>();
+        }
+
+        /// <summary>
+        /// adds the given order to this users orderhistory, should not ever be called directly by anybody but OrderManager
+        /// </summary>
+        /// <param name="o"> the ordear to be added to OrderHistory</param>
+        public void PlaceOrder(Order o)
+        {
+             OrderHistory.Add(o); 
+        }
+
+        /// <summary>
+        /// suggests an order for the user to place based on the most common order in their history
+        /// </summary>
+        /// <returns> the users most common order with the current time as the ordertime</returns>
         public Order SuggestedOrder()
         {
             //returns the most recent
             if(OrderHistory != null && OrderHistory.Count > 0)
             {
                 //return OrderHistory[OrderHistory.Count - 1];
-                Order result = (Order)OrderHistory.GroupBy(o => o).OrderByDescending(og => og.Count()).First();
-                return result;
+                var result = OrderHistory.GroupBy(o => new { o.Location,o.Contents }).OrderByDescending(og => og.Count()).First();
+                return new Order(result.Key.Location, this, DateTime.UtcNow, result.Key.Contents);
             }
             return null;
             //other option
@@ -68,6 +76,21 @@ namespace Project0.Library
             //Order result = (Order)OrderHistory.GroupBy(o => o).OrderByDescending(og => og.Count()).First();
             //return result;
         }
+
+        /*
+        public override bool Equals(Object obj)
+        {
+            if((obj == null) || this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                User other = (User)obj;
+                return (FirstName.Equals(other.FirstName) && LastName.Equals(other.LastName) && DefaultLocation.Equals(other.DefaultLocation) && )
+            }
+        }
+        */
 
         //display order history sorted by earliest, latest, cheapest, most expensive
         /*

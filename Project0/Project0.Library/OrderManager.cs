@@ -8,32 +8,90 @@ namespace Project0.Library
     /// <summary>
     /// Used to Place orders for a user at a location
     /// </summary>
-    class OrderManager
+    public static class OrderManager
     {
 
-        public void PlaceOrder(Order o)
+        public static void PlaceOrder(Order o)
         {
+            //checking to make sure the order wasn't placed within 2 hours of an order to the same location for the user
+            double twoHoursInSeconds = 60 * 60 * 2;
+            bool checkUserOrder = o.User.OrderHistory.Where(a => Math.Abs(a.OrderTime.Subtract(o.OrderTime).TotalSeconds) < (twoHoursInSeconds))
+                .Any(b => b.Location.Equals(o.Location));
+            if (checkUserOrder)
+            {
+                throw new BadOrderException("order was placed within two hours of another order at the same location");
+            }
+            //checks to make sure there are no more then 12 items in the order and the price does not exceed $500
+            if (o.Contents.Count > 12)
+            {
+                throw new BadOrderException("size of the order exceeded 12 items");
+            }
+            else if (o.Price > 500)
+            {
+                throw new BadOrderException("price of the order exceeded $500");
+            }
+
+
+            //checks to make sure all the contents of the order can be filled by the Location
+            Dictionary<Ingredient, int> orderIngredients = new Dictionary<Ingredient, int>();
+            //first find all the ingredients necesary and in what amount
+            foreach (var item in o.Contents)
+            {
+                /*
+                if (item == null)
+                {
+                    throw new BadOrderException("item in orders contents was null");
+                }
+                */
+                //else
+                //{
+                //constant 1 used for each ingredient in RequiredIng, could change
+                foreach (var ing in item.RequiredIng)
+                {
+                    if (!orderIngredients.ContainsKey(ing))
+                    {                            
+                        orderIngredients[ing] = 1;
+                    }
+                    else 
+                    {
+                        orderIngredients[ing] += 1;
+                    }
+                }
+                //}             
+            }
+            //check to make sure that the Location has the ingredients to fulfill order
+            foreach(KeyValuePair<Ingredient,int> pair in orderIngredients)
+            {
+                if(!o.Location.Inventory.ContainsKey(pair.Key))
+                {
+                    throw new BadOrderException($"Location does not contain the required Ingredient {pair.Key} ");
+                }
+                else if(o.Location.Inventory[pair.Key] < pair.Value)
+                {
+                    throw new BadOrderException($"Location does not have any more {pair.Key}");
+                }
+            }
             o.User.PlaceOrder(o);
-            o.Location.PlaceOrder(o);
+            o.Location.PlaceOrder(o, orderIngredients);
         }
 
         //display order history sorted by earliest, latest, cheapest, most expensive
-        public List<Order> EarliestOrderedHistory(IHistoryable input)
+        public static List<Order> EarliestOrderedHistory(IHistoryable input)
         {
             return input.OrderHistory.OrderBy(h => h.OrderTime).ToList();
         }
 
-        public List<Order> LatestOrderedHistory(IHistoryable input)
+        public static List<Order> LatestOrderedHistory(IHistoryable input)
         {
             return input.OrderHistory.OrderByDescending(h => h.OrderTime).ToList();
         }
 
-        public List<Order> CheapestOrderedHistory(IHistoryable input)
+        public static List<Order> CheapestOrderedHistory(IHistoryable input)
         {
             return input.OrderHistory.OrderBy(h => h.Price).ToList();
         }
 
-        public List<Order> ExpensiveOrderedHistory(IHistoryable input)
+        public static List<Order> ExpensiveOrderedHistory(IHistoryable input)
         {
             return input.OrderHistory.OrderByDescending(h => h.Price).ToList();
         }

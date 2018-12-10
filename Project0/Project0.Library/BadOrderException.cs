@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Project0.Library
 {
-    class BadOrderException : Exception
+    public class BadOrderException : Exception
     {
         public BadOrderException()
         {

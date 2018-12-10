@@ -8,42 +8,50 @@ namespace Project0.Tests
     public class LocationTests
     {
         [Fact]
-        public void TestOrderHistoryEarliest()
+        public void BasicLocationCreateTest()
         {
-            //arrange
-            User u = new User("Sorry", "Cart");
-            Location l = new Location("Baziznoz");
-            DateTime d1 = new DateTime(1995, 1, 25);
-            DateTime d2 = new DateTime(1995, 2, 5);
-            DateTime d3 = new DateTime(1995, 4, 12);
-            DateTime d4 = new DateTime(1994, 8, 10);
-            Pizza p1 = new Pizza("Pepperoni", 19.95m);
-            Pizza p2 = new Pizza("Supreme", 25.95m);
-            Pizza p3 = new Pizza("Dessert", 7.95m);
-            List<IVictual> oFood1 = new List<IVictual>() { p1};
-            Order o1 = new Order(l, u, d1, oFood1);
-            List<IVictual> oFood2 = new List<IVictual>() { p2,p3};
-            Order o2 = new Order(l, u, d2, oFood2);
-            List<IVictual> oFood3 = new List<IVictual>() { p2 };
-            Order o3 = new Order(l, u, d4, oFood3);
-            //act
-            List<Order> exp1 = new List<Order> { o3, o1, o2 };
-            List<Order> act1 = l.EarliestOrderedHistory();
 
-            List<Order> exp2 = new List<Order> { o2, o1, o3 };
-            List<Order> act2 = l.LatestOrderedHistory();
+            Location actLoc = new Location("Fortozo");
 
-            List<Order> exp3 = new List<Order> { o1, o3, o2 };
-            List<Order> act3 = l.CheapestOrderedHistory();
+            Assert.Equal("Fortozo", actLoc.Name);
 
-            List<Order> exp4 = new List<Order> { o2, o3, o1 };
-            List<Order> act4 = l.ExpensiveOrderedHistory();
-
-            //Assert
-            Assert.Equal(exp1, act1);
-            Assert.Equal(exp2, act2);
-            Assert.Equal(exp3, act3);
-            Assert.Equal(exp4, act4);
         }
+
+        [Fact]
+        public void NameMenuLocationCreateTest() {
+
+            Pizza p1 = new Pizza("Pepperoni", new List<Ingredient> { Ingredient.Pepperoni }, 19.95m);
+            Pizza p2 = new Pizza("Supreme", new List<Ingredient> { Ingredient.Mushroom, Ingredient.Pepper, Ingredient.Sausage }, 25.95m);
+            Pizza p3 = new Pizza("Dessert", new List<Ingredient> { Ingredient.Cinnamon, Ingredient.Mushroom }, 7.95m);
+            List<Pizza> menu = new List<Pizza>() { p1, p2, p3 };
+            Location actLoc = new Location("Zanos", menu);
+
+            Assert.Equal("Zanos", actLoc.Name);
+            Assert.Equal(menu, actLoc.Menu);
+
+        }
+
+        [Fact]
+        public void NameInventoryMenuCreateTest() {
+
+            Pizza p1 = new Pizza("Pepperoni", new List<Ingredient> { Ingredient.Pepperoni }, 19.95m);
+            Pizza p2 = new Pizza("Supreme", new List<Ingredient> { Ingredient.Mushroom, Ingredient.Pepper, Ingredient.Sausage }, 25.95m);
+            Pizza p3 = new Pizza("Dessert", new List<Ingredient> { Ingredient.Cinnamon, Ingredient.Marshmallow }, 7.95m);
+            List<Pizza> menu = new List<Pizza>() { p1, p2, p3 };
+            Dictionary<Ingredient, int> inventory = new Dictionary<Ingredient, int>() {
+                { Ingredient.Pepperoni, 5},
+                { Ingredient.Mushroom, 3 },
+                { Ingredient.Pepper, 2},
+                { Ingredient.Sausage, 8},
+            };
+            Location actLoc = new Location("Zanos", inventory,menu);
+            Assert.Equal("Zanos", actLoc.Name);
+            Assert.Equal(menu, actLoc.Menu);
+            Assert.Equal(inventory, actLoc.Inventory);
+
+        }
+
+            
+        
     }
 }

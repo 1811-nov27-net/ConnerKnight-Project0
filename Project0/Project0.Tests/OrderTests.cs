@@ -9,22 +9,22 @@ namespace Project0.Tests
     public class OrderTests
     {
         [Fact]
-        public void BasicPlaceOrder()
+        public void OrderCreateTest()
         {
-            //arrange
+            
             User u = new User("Bobby","Gogurt");
             Location l = new Location("Piozos");
             DateTime d = new DateTime(1995, 1, 25);
-            Pizza p = new Pizza("Pepperoni", 19.95m);
-            List<IVictual> oFood = new List<IVictual>();
-            oFood.Add(p);
-            Order o = new Order(l,u,d,oFood);
-            //act
-            bool res1 = u.OrderHistory.Contains(o);
-            bool res2 = l.OrderHistory.Contains(o);
-            //assert
-            Assert.True(res1);
-            Assert.True(res2);
+            Pizza p = new Pizza("Pepperoni", new List<Ingredient> { Ingredient.Pepperoni }, 19.95m);
+            List<Pizza> oFood = new List<Pizza>() { p};
+            Order oAct = new Order(l,u,d,oFood);
+            
+            Assert.Equal(u,oAct.User);
+            Assert.Equal(l,oAct.Location);
+            Assert.Equal(d, oAct.OrderTime);
+            Assert.Equal(oFood,oAct.Contents);
+
+
         }
     }
 }
