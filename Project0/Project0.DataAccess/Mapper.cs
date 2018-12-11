@@ -12,12 +12,13 @@ namespace Project0.DataAccess
         {
             //Id = restaurant.Id
             FirstName = user.FirstName,
-            LastName = user.LastName
+            LastName = user.LastName,
+            DefaultLocation = Map(user.DefaultLocation)
         };
 
         public static User Map(Library.User user) => new User
         {
-            //Id = restaurant.Id
+            UserId = user.UserId,
             FirstName = user.FirstName,
             LastName = user.LastName,
             Order = new List<Order>()
@@ -26,42 +27,42 @@ namespace Project0.DataAccess
         public static Library.Location Map(Location location) => new Library.Location
         {
             //Id = location.id
-            Name = location.Name,
-            Inventory = Map(location.Locationingredient)
+            Name = location.Name
+            //Inventory = Map(location.Locationingredient)
+        };
+
+        public static Location Map(Library.Location location) => new Location
+        {
+            //Id = location.id
+            Name = location.Name
+            //List < Locationingredient > result = new List<Locationingredient>();
+            /*
+            foreach(KeyValuePair<Ingredient, int> pair in location.Inventory)
+            {
+                result.Add(new Locationingredient() { })
+            }
+            */
         };
 
         public static Library.Ingredient Map(Ingredient ingredient) => new Library.Ingredient
         {
-            IngredientId = ingredient.IngredientId,
+            //IngredientId = ingredient.IngredientId,
             Name = ingredient.Name
         };
 
         public static Ingredient Map(Library.Ingredient ingredient) => new Ingredient
         {
-            IngredientId = ingredient.IngredientId,
+            //IngredientId = ingredient.IngredientId,
             Name = ingredient.Name
         };
 
         public static ICollection<OrderContent> Map(ICollection<Library.Pizza> pizzas) => pizzas.Select(Map)
 
-        public static OrderContent Map(Library.Pizza pizza) =>
+        //public static OrderContent Map(Library.Pizza pizza) =>
 
-            public static ICollection<Locationingredient> Map(Dictionary<Library.Ingredient, int> ingredients)
-        {
-            List<Library.Ingredient> result = new List<Library.Ingredient>();
-            foreach(KeyValuePair<Ingredient,int> in ingredients)
-            {
-                result
-            }
 
-        }
-
-        public static Location Map(Library.Location location) => new Location
-        {
-            //Id = location.id
-            Name = location.Name,
-            //Inventory = Map(location.Inventory)
-        };
+        //public static ICollection<Locationingredient> Map(Dictionary<Library.Ingredient, int> ingredients)
+        //{}
 
         public static Library.Order Map(Order order) => new Library.Order
         {

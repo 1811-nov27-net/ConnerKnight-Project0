@@ -12,22 +12,23 @@ namespace Project0.Library
         public User User { get; set; }
         public DateTime OrderTime { get; set; }
         //made it so you can only order pizzas
-        public ICollection<Pizza> Contents { get; set; }
+        public Dictionary<Pizza,int> Contents { get; set; }
         public decimal Price;
 
-        public Order(Location l, User u, DateTime ot, ICollection<Pizza> c)
+        public Order(Location l, User u, DateTime ot, Dictionary<Pizza,int> c)
         {
             Location = l;
             User = u;
             OrderTime = ot;
             Contents = c;
-            Price = Contents.Sum(s => s.Price);
+            Price = 0;//Contents.Sum(s => s.Price);
         }
 
         public Order()
         {
-            Contents = new List<Pizza>();
+            Contents = new Dictionary<Pizza, int>();
         }
+
 
         //serializing order is going to break everything
         //going to have to do this another way, maybe ...
