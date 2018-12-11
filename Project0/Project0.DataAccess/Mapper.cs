@@ -10,18 +10,18 @@ namespace Project0.DataAccess
 
         public static Library.User Map(User user) => new Library.User
         {
-            //Id = restaurant.Id
+            UserId = user.UserId,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            DefaultLocation = Map(user.DefaultLocation)
+            DefaultLocation = user.DefaultLocation != null ? Map(user.DefaultLocation) : null
         };
 
         public static User Map(Library.User user) => new User
         {
-            UserId = user.UserId,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            Order = new List<Order>()
+            Order = new List<Order>(),
+            DefaultLocation = user.DefaultLocation != null ? Map(user.DefaultLocation) : null
         };
 
         public static Library.Location Map(Location location) => new Library.Location
@@ -56,7 +56,7 @@ namespace Project0.DataAccess
             Name = ingredient.Name
         };
 
-        public static ICollection<OrderContent> Map(ICollection<Library.Pizza> pizzas) => pizzas.Select(Map)
+        //public static ICollection<OrderContent> Map(ICollection<Library.Pizza> pizzas) => pizzas.Select(Map)
 
         //public static OrderContent Map(Library.Pizza pizza) =>
 

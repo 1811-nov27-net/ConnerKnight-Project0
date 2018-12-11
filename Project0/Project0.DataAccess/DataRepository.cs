@@ -79,15 +79,82 @@ namespace Project0.DataAccess
                 db.Order.Add(o);
 
             }
-            catch (Exception)
+            catch (BadOrderException e)
             {
 
-                //do nothing
+                //find a way to tell the user this information
 
             }
             db.SaveChanges();
             
             //db.Add(Mapper.Map(order));
+        }
+
+        public Library.User GetUser(string firstName, string lastName)
+        {
+            return Mapper.Map(db.User.Where(a => a.FirstName == firstName && a.LastName == lastName).First());
+        }
+
+        public List<Library.User> GetUsers()
+        {
+            List<User> users = db.User.Include(a => a.DefaultLocation).AsNoTracking().ToList();
+            return users.Select(a => Mapper.Map(a)).ToList();
+        }
+
+        public List<Library.Location> GetLocations()
+        {
+            List<Location> locations = db.Location.Include(a => a.Locationingredient).ToList();
+            List<Library.Location> result = new List<Library.Location>();
+            foreach(var l in locations)
+            {
+                Dictionary<Library.Ingredient, int> tempInventory = new Dictionary<Library.Ingredient, int>();
+                foreach(var i in l.Locationingredient)
+                {
+                    tempInventory[Mapper.Map(i.Ingredient)] = i.Quantity ?? 0;
+                }
+                Library.Location temp = new Library.Location() { Name = l.Name, Inventory = tempInventory };
+                result.Add(temp);
+            }
+
+            return result;
+
+        }
+
+        public List<Library.Pizza> GetPizzas()
+        {
+            return db.Content.Select(a => new Library.Pizza() { Name = a.Name, Price = a.Price ?? 0 }).ToList();
+        }
+
+        public List<Library.Ingredient> GetIngredients()
+        {
+            return db.Ingredient.Select(a => new Library.Ingredient() { Name = a.Name, IngredientId = a.IngredientId }).ToList();
+        }
+
+        public List<Ingredient> GetIngredients2()
+        {
+            return db.Ingredient.ToList();
+        }
+
+        public List<Library.Order> GetUserOrderHistory(Library.User user)
+        {
+            List<Order> os = db.Order.Where(a => a.UserId == user.UserId).Include(a => a.User).Include(b => b.Location).ToList();
+            List<Library.Order> result = new List<Library.Order>();
+            foreach (var o in os)
+            {
+                Library.Location l = Mapper.Map(o.Location);
+                Dictionary<Pizza,int> pizzas = new Dictionary<Pizza, int>();
+                foreach(OrderContent oc in o.OrderContent)
+                {
+                    Pizza p = new Pizza() { Name = oc.Content.Name,Price = oc.Content.Price ?? 0};
+                    pizzas[p] = oc.Amount ?? 0;
+                }
+
+                Library.Order tempOrder = new Library.Order() { User = user, Location = l, Contents = pizzas };
+                result.Add(tempOrder);
+            }
+
+            return result;
+
         }
 
         public void Save()

@@ -13,7 +13,7 @@ namespace Project0.Library
         public DateTime OrderTime { get; set; }
         //made it so you can only order pizzas
         public Dictionary<Pizza,int> Contents { get; set; }
-        public decimal Price;
+        //public decimal Price;
 
         public Order(Location l, User u, DateTime ot, Dictionary<Pizza,int> c)
         {
@@ -21,12 +21,23 @@ namespace Project0.Library
             User = u;
             OrderTime = ot;
             Contents = c;
-            Price = 0;//Contents.Sum(s => s.Price);
+            //Price = 0;//Contents.Sum(s => s.Price);
         }
 
         public Order()
         {
             Contents = new Dictionary<Pizza, int>();
+        }
+
+        public decimal Price()
+        {
+            decimal total = 0.0M;
+            foreach(var pair in Contents)
+            {
+                total += pair.Key.Price * pair.Value;
+            }
+
+            return total;
         }
 
 

@@ -24,6 +24,11 @@ namespace Project0.Library
             RequiredIng = reqIng;
         }
 
+        public Pizza()
+        {
+            RequiredIng = new List<Ingredient>();
+        }
+
 
 
     }
