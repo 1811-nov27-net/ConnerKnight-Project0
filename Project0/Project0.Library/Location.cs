@@ -7,8 +7,10 @@ namespace Project0.Library
 {
 
     
-
-    public class Location : IHistoryable
+    /// <summary>
+    /// Represents a named Pizza location with an inventory of ingredients
+    /// </summary>
+    public class Location
     {
         public int LocationId { get; set; }
         public string Name { get; set; }
@@ -68,37 +70,21 @@ namespace Project0.Library
             OrderHistory = new List<Order>();
         }
         
-
+        /// <summary>
+        /// subtracts the ingredients in orderIngredients from the locations ingredients
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="orderIngredients"></param>
         public void PlaceOrder(Order o, Dictionary<Ingredient, int> orderIngredients)
         {
             foreach(KeyValuePair<Ingredient,int> pair in orderIngredients)
             {
-                Console.WriteLine(pair.Value);
+                //Console.WriteLine(pair.Value);
                 Inventory[pair.Key] = Inventory[pair.Key] - pair.Value;
             }
             //OrderHistory.Add(o);
         }
 
-        /*
-        public List<Order> EarliestOrderedHistory()
-        {
-            return OrderHistory.OrderBy(h => h.OrderTime).ToList();
-        }
-
-        public List<Order> LatestOrderedHistory()
-        {
-            return OrderHistory.OrderByDescending(h => h.OrderTime).ToList();
-        }
-
-        public List<Order> CheapestOrderedHistory()
-        {
-            return OrderHistory.OrderBy(h => h.Price).ToList();
-        }
-
-        public List<Order> ExpensiveOrderedHistory()
-        {
-            return OrderHistory.OrderByDescending(h => h.Price).ToList();
-        }
-        */
+       
     }
 }

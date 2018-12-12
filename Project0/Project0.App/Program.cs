@@ -74,7 +74,12 @@ namespace Project0.App
                             Console.WriteLine("Possible Locations: ");
                             foreach (var l in posLoc)
                             {
-                                Console.WriteLine(l.Name);
+                                Console.Write(l.Name);
+                                if(currentUser.DefaultLocation.LocationId == l.LocationId)
+                                {
+                                    Console.Write(" (default) ");
+                                }
+                                Console.WriteLine();
                             }
                             Console.WriteLine("Enter the name of the restaurant you would like to order from");
 
@@ -141,7 +146,7 @@ namespace Project0.App
                             while (!input.StartsWith('Q')) {
                                 foreach (var o in orderHistory)
                                 {
-                                    Console.WriteLine($"{o.User.FirstName},{o.User.LastName} \t {o.Location.Name}");
+                                    Console.WriteLine($"{o.User.FirstName},{o.User.LastName} \t {o.Location.Name} \t {o.OrderTime}");
                                     foreach (var p in o.Contents)
                                     {
                                         Console.Write($"{p.Key.Name} - {p.Value}, ");
@@ -251,7 +256,7 @@ namespace Project0.App
                             {
                                 foreach (var o in orderHistory)
                                 {
-                                    Console.WriteLine($"{o.User.FirstName},{o.User.LastName} \t {o.Location.Name}");
+                                    Console.WriteLine($"{o.User.FirstName},{o.User.LastName} \t {o.Location.Name} \t {o.OrderTime}");
                                     foreach (var p in o.Contents)
                                     {
                                         Console.Write($"{p.Key.Name} - {p.Value}, ");

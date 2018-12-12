@@ -21,7 +21,7 @@ namespace Project0.DataAccess
             FirstName = user.FirstName,
             LastName = user.LastName,
             Order = new List<Order>(),
-            DefaultLocation = user.DefaultLocation != null ? Map(user.DefaultLocation) : null
+            //DefaultLocation = user.DefaultLocation != null ? Map(user.DefaultLocation) : null
         };
 
         public static Library.Location Map(Location location) => new Library.Location

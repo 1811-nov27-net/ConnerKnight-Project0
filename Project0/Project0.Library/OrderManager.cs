@@ -16,7 +16,7 @@ namespace Project0.Library
             //checking to make sure the order wasn't placed within 2 hours of an order to the same location for the user
             double twoHoursInSeconds = 60 * 60 * 2;
             bool checkUserOrder = orderHistory.Where(a => Math.Abs(a.OrderTime.Subtract(o.OrderTime).TotalSeconds) < (twoHoursInSeconds))
-                .Any(b => b.Location.Equals(o.Location) && b.User.Equals(o.User));
+                .Any(b => b.Location.LocationId == o.Location.LocationId && b.User.UserId == o.User.UserId);
             if (checkUserOrder)
             {
                 throw new BadOrderException("order was placed within two hours of another order at the same location");

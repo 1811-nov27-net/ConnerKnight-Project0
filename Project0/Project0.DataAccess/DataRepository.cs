@@ -19,6 +19,7 @@ namespace Project0.DataAccess
         public void AddUser(Library.User user)
         {
             User u = Mapper.Map(user);
+            u.DefaultLocation = db.Location.Find(user.DefaultLocation.LocationId);
             db.Add(u);
             db.SaveChanges();
             user.UserId = u.UserId;

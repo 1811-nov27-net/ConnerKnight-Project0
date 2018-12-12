@@ -15,7 +15,6 @@ namespace Project0.Library
         public Location DefaultLocation { get; set; }
         public List<Order> OrderHistory { get; set; }
 
-        //not using XML so don't need this onstructor
         
         public User()
         {
@@ -26,16 +25,7 @@ namespace Project0.Library
         
 
 
-        //wouldn't concievably ever use this constructor
-        /*
-        public User(string firstName, string lastName, List<Order> orderHistory)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            OrderHistory = orderHistory;
-            
-        }
-        */
+        
 
         /// <summary>
         /// constructor to create a new User with given firstName and lastName and an empty OrderHistory
@@ -95,27 +85,6 @@ namespace Project0.Library
         }
         */
 
-        //display order history sorted by earliest, latest, cheapest, most expensive
-        /*
-        public List<Order> EarliestOrderedHistory()
-        {
-            return OrderHistory.OrderBy(h => h.OrderTime).ToList();
-        }
-
-        public List<Order> LatestOrderedHistory()
-        {
-            return OrderHistory.OrderByDescending(h => h.OrderTime).ToList();
-        }
-
-        public List<Order> CheapestOrderedHistory()
-        {
-            return OrderHistory.OrderBy(h => h.Price).ToList();
-        }
-
-        public List<Order> ExpensiveOrderedHistory()
-        {
-            return OrderHistory.OrderByDescending(h => h.Price).ToList();
-        }
-        */
+        
     }
 }
