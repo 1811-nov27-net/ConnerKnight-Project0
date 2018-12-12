@@ -62,13 +62,15 @@ namespace Project0.Library
         /// suggests an order for the user to place based on the most common order in their history
         /// </summary>
         /// <returns> the users most common order with the current time as the ordertime</returns>
-        public Order SuggestedOrder()
+        public Order SuggestedOrder(List<Order> orderHistory)
         {
             //returns the most recent
-            if(OrderHistory != null && OrderHistory.Count > 0)
+            if(orderHistory != null && orderHistory.Count > 0)
             {
                 //return OrderHistory[OrderHistory.Count - 1];
-                var result = OrderHistory.GroupBy(o => new { o.Location,o.Contents }).OrderByDescending(og => og.Count()).First();
+                var filteredHistory = orderHistory.Where(o => o.User.Equals(this));
+
+                var result = filteredHistory.GroupBy(o => new { o.Location,o.Contents }).OrderByDescending(og => og.Count()).First();
                 return new Order(result.Key.Location, this, DateTime.UtcNow, result.Key.Contents);
             }
             return null;

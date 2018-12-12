@@ -21,29 +21,32 @@ namespace Project0.Tests
             DateTime d2 = new DateTime(1995, 2, 5);
             DateTime d3 = new DateTime(1995, 4, 12);
             DateTime d4 = new DateTime(1994, 8, 10);
-            Pizza p1 = new Pizza("Pepperoni", new List<Ingredient> { Ingredient.Pepperoni }, 19.95m);
-            Pizza p2 = new Pizza("Supreme", new List<Ingredient> { Ingredient.Mushroom, Ingredient.Pepper, Ingredient.Sausage }, 25.95m);
-            Pizza p3 = new Pizza("Dessert", new List<Ingredient> { Ingredient.Cinnamon, Ingredient.Mushroom }, 7.95m);
-            List<Pizza> oFood1 = new List<Pizza>() { p1 };
+            Pizza p1 = new Pizza("Pepperoni", new List<Ingredient> { new Ingredient("Pepperoni") }, 19.95m);
+            Pizza p2 = new Pizza("Supreme", new List<Ingredient> { new Ingredient("Mushroom"), new Ingredient("Pepper"), new Ingredient("Sausage") }, 25.95m);
+            Pizza p3 = new Pizza("Dessert", new List<Ingredient> { new Ingredient("Cinnamon"), new Ingredient("Marshmallow") }, 7.95m);
+            Dictionary<Pizza, int> oFood1 = new Dictionary<Pizza, int>() { { p1, 1 } };
             Order o1 = new Order(l, u, d1, oFood1);
-            List<Pizza> oFood2 = new List<Pizza>() { p2, p3 };
+            Dictionary<Pizza, int> oFood2 = new Dictionary<Pizza, int>() { { p2, 1 }, { p3, 1 } };
             Order o2 = new Order(l, u, d2, oFood2);
-            List<Pizza> oFood3 = new List<Pizza>() { p2 };
+            Dictionary<Pizza, int> oFood3 = new Dictionary<Pizza, int>() { { p2, 1 } };
             Order o3 = new Order(l, u, d4, oFood3);
+            //Dictionary<Pizza, int> oFood4 = new Dictionary<Pizza, int>() { { p2, 1 }, { p3, 1 } };
+            //Order o4 = new Order(l, u, d3, oFood2);
+
             //act
-            l.OrderHistory = new List<Order>() { o1,o2,o3};
+            List<Order> OrderHistory = new List<Order>() { o1,o2,o3};
             List<Order> exp1 = new List<Order> { o3, o1, o2 };
 
-            List<Order> act1 = OrderManager.EarliestOrderedHistory(l);
+            List<Order> act1 = OrderManager.EarliestOrderedHistory(OrderHistory);
 
             List<Order> exp2 = new List<Order> { o2, o1, o3 };
-            List<Order> act2 = OrderManager.LatestOrderedHistory(l);
+            List<Order> act2 = OrderManager.LatestOrderedHistory(OrderHistory);
 
             List<Order> exp3 = new List<Order> { o1, o3, o2 };
-            List<Order> act3 = OrderManager.CheapestOrderedHistory(l);
+            List<Order> act3 = OrderManager.CheapestOrderedHistory(OrderHistory);
 
             List<Order> exp4 = new List<Order> { o2, o3, o1 };
-            List<Order> act4 = OrderManager.ExpensiveOrderedHistory(l);
+            List<Order> act4 = OrderManager.ExpensiveOrderedHistory(OrderHistory);
 
             Assert.Equal(exp1, act1);
             Assert.Equal(exp2, act2);
@@ -57,46 +60,44 @@ namespace Project0.Tests
     {
             User u = new User("Sorry", "Cart");
             Dictionary<Ingredient, int> inventory = new Dictionary<Ingredient, int>() {
-                { Ingredient.Pepperoni, 5},
-                { Ingredient.Mushroom, 3 },
-                { Ingredient.Pepper, 2},
-                { Ingredient.Sausage, 8},
-                { Ingredient.Cinnamon, 4},
-                { Ingredient.Marshmallow, 2}
+                { new Ingredient("Pepperoni"), 5},
+                { new Ingredient("Mushroom"), 3 },
+                { new Ingredient("Pepper"), 2},
+                { new Ingredient("Sausage"), 8},
+                { new Ingredient("Cinnamon"), 4},
+                { new Ingredient("Marshmallow"), 2}
             };
             Location l = new Location("Baziznoz");
             DateTime d1 = new DateTime(1995, 1, 25, 12,55,22);
             DateTime d2 = new DateTime(1995, 1, 25,14,54,37);
             DateTime d3 = new DateTime(1995, 4, 12);
             DateTime d4 = new DateTime(1994, 8, 10);
-            Pizza p1 = new Pizza("Pepperoni", new List<Ingredient> { Ingredient.Pepperoni }, 19.95m);
-            Pizza p2 = new Pizza("Supreme", new List<Ingredient> { Ingredient.Mushroom, Ingredient.Pepper, Ingredient.Sausage }, 25.95m);
-            Pizza p3 = new Pizza("Dessert", new List<Ingredient> { Ingredient.Cinnamon, Ingredient.Marshmallow }, 7.95m);
-            Pizza p4 = new Pizza("Golden Pizza", new List<Ingredient> { Ingredient.Gold, Ingredient.Mushroom }, 325.95m);
-            Pizza p5 = new Pizza("Spicy Pizza", new List<Ingredient> { Ingredient.Pepperoni, Ingredient.Jalapeno }, 23.95m);
+            Pizza p1 = new Pizza("Pepperoni", new List<Ingredient> { new Ingredient("Pepperoni") }, 19.95m);
+            Pizza p2 = new Pizza("Supreme", new List<Ingredient> { new Ingredient("Mushroom"), new Ingredient("Pepper"), new Ingredient("Sausage") }, 25.95m);
+            Pizza p3 = new Pizza("Dessert", new List<Ingredient> { new Ingredient("Cinnamon"), new Ingredient("Marshmallow") }, 7.95m);
+            Pizza p4 = new Pizza("Golden Pizza", new List<Ingredient> { new Ingredient("Gold"), new Ingredient("Mushroom") }, 325.95m);
+            Pizza p5 = new Pizza("Spicy Pizza", new List<Ingredient> { new Ingredient("Pepperoni"), new Ingredient("Jalapeno") }, 23.95m);
             l.Inventory = inventory;
-            List<Pizza> oFood1 = new List<Pizza>() { p1 };
+            Dictionary<Pizza, int> oFood1 = new Dictionary<Pizza, int>() { { p1, 1 } };
             Order o1 = new Order(l, u, d1, oFood1);
-
-            List<Pizza> oFood2 = new List<Pizza>() { p2, p3 };
+            Dictionary<Pizza, int> oFood2 = new Dictionary<Pizza, int>() { { p2, 1 }, { p3, 1 } };
             Order o2 = new Order(l, u, d2, oFood2);
-
-            List<Pizza> oFood3 = new List<Pizza>() { p2 };
+            Dictionary<Pizza, int> oFood3 = new Dictionary<Pizza, int>() { { p2, 1 } };
             Order o3 = new Order(l, u, d4, oFood3);
 
-            List<Pizza> oFood4 = new List<Pizza>() { p1,p2,p1,p2,p3,p1,p3,p1,p1,p3,p3,p2,p1 };
+            Dictionary<Pizza, int> oFood4 = new Dictionary<Pizza, int>() { {p1,6 },{ p2, 4 },{ p3,5} };
             Order o4 = new Order(l, u, d3, oFood4);
 
-            List<Pizza> oFood5 = new List<Pizza>() { p4,p4 };
+            Dictionary<Pizza, int> oFood5 = new Dictionary<Pizza, int>() { { p4,2} };
             Order o5 = new Order(l, u, d3, oFood5);
 
             //List<Pizza> oFood6 = new List<Pizza>() { p3,p1,null };
             //Order o6 = new Order(l, u, d3, oFood6);
 
-            List<Pizza> oFood7 = new List<Pizza>() { p5};
+            Dictionary<Pizza, int> oFood7 = new Dictionary<Pizza, int>() { { p5,1 } };
             Order o7 = new Order(l, u, d3, oFood7);
 
-            List<Pizza> oFood8 = new List<Pizza>() { p3,p3,p3 };
+            Dictionary<Pizza, int> oFood8 = new Dictionary<Pizza, int>() { { p3, 3 } };
             Order o8 = new Order(l, u, d3, oFood8);
 
             OrderManager.PlaceOrder(o1);
