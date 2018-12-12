@@ -55,7 +55,7 @@ namespace Project0.Library
         /// <param name="o"> the ordear to be added to OrderHistory</param>
         public void PlaceOrder(Order o)
         {
-             OrderHistory.Add(o); 
+             //OrderHistory.Add(o); 
         }
 
         /// <summary>

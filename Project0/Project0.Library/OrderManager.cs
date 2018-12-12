@@ -44,6 +44,7 @@ namespace Project0.Library
                 */
                 count += item.Value;
                 //constant 1 used for each ingredient in RequiredIng, could change
+                Console.WriteLine("num required ingredients: "+ item.Key.RequiredIng.Count);
                 foreach (var ing in item.Key.RequiredIng)
                 {
                     if (!orderIngredients.ContainsKey(ing))

@@ -26,7 +26,7 @@ namespace Project0.DataAccess
 
         public static Library.Location Map(Location location) => new Library.Location
         {
-            //Id = location.id
+            LocationId = location.LocationId,
             Name = location.Name
             //Inventory = Map(location.Locationingredient)
         };
@@ -46,7 +46,7 @@ namespace Project0.DataAccess
 
         public static Library.Ingredient Map(Ingredient ingredient) => new Library.Ingredient
         {
-            //IngredientId = ingredient.IngredientId,
+            IngredientId = ingredient.IngredientId,
             Name = ingredient.Name
         };
 
@@ -55,6 +55,17 @@ namespace Project0.DataAccess
             //IngredientId = ingredient.IngredientId,
             Name = ingredient.Name
         };
+
+        public static List<Locationingredient> Map(Dictionary<Library.Ingredient, int> inventory) {
+            List<Locationingredient> result = new List<Locationingredient>();
+            foreach (var pair in inventory)
+            {
+                result.Add(new Locationingredient() { IngredientId = pair.Key.IngredientId, Quantity = pair.Value });
+            }
+
+            return result;
+
+        }
 
         //public static ICollection<OrderContent> Map(ICollection<Library.Pizza> pizzas) => pizzas.Select(Map)
 

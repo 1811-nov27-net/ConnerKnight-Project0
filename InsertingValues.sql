@@ -17,3 +17,17 @@ VALUES (2,1),
 (3,4)
 
 select * from PZ.[User]
+
+select * from PZ.[Location]
+
+select * from PZ.Locationingredient
+
+select * from PZ.Ingredient
+
+select * from PZ.Content
+
+select * from PZ.[Order]
+
+delete from PZ.[Order] where LocationId IS NULL
+
+select *  from PZ.OrderContent

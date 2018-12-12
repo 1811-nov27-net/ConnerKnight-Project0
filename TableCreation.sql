@@ -45,6 +45,7 @@ CREATE TABLE PZ.[Order](
 	OrderId		INT IDENTITY(1,1),
 	LocationId	INT,
 	UserId		INT,
+	OrderTime	datetime2,
 	CONSTRAINT PK_Order PRIMARY KEY (OrderId),
 	CONSTRAINT	FK_OrderLocation FOREIGN KEY (LocationId) REFERENCES PZ.[Location](LocationId),
 	CONSTRAINT	FK_OrderUser FOREIGN KEY (UserId) REFERENCES PZ.[User](UserId)
