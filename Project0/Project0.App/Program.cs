@@ -121,9 +121,16 @@ namespace Project0.App
                             int numHours = 0;
                             int.TryParse(input, out numHours);
                             Lib.Order ChosenOrder = new Lib.Order(chosenLocation, currentUser, DateTime.Now.AddHours(numHours), chosenPizzas);
-                            repo.AddOrder(ChosenOrder);
+                            try
+                            {
+                                repo.AddOrder(ChosenOrder);
+                                Console.WriteLine("Order has been Placed");
+                            } catch(Lib.BadOrderException e)
+                            {
+                                Console.WriteLine($"A problem has occured with your order: {e.Message}");
+                            }
                             //Console.WriteLine("number of pepperoni: "+ chosenLocation.Inventory[chosenLocation.Inventory.Keys.Where(a=>a.Name == "Pepperoni").First()]);
-                            Console.WriteLine("Order has been Placed");
+                            
                             repo.Save();
                         }
                         else if (input.StartsWith('H'))
@@ -164,8 +171,15 @@ namespace Project0.App
                         else if (input.StartsWith('F'))
                         {
                             Lib.Order o = currentUser.SuggestedOrder(repo.GetUserOrderHistory(currentUser));
-                            repo.AddOrder(o);
-                            Console.WriteLine("Order has been Placed");
+                            try
+                            {
+                                repo.AddOrder(o);
+                                Console.WriteLine("Order has been Placed");
+                            }
+                            catch (Lib.BadOrderException e)
+                            {
+                                Console.WriteLine($"A problem has occured with your order: {e.Message}");
+                            }
                         }
 
                         Console.WriteLine("Press A to (A)dd Order");

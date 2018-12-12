@@ -59,39 +59,30 @@ namespace Project0.DataAccess
 
         public void AddOrder(Library.Order order)
         {
-            try
+
+            //Console.WriteLine("size of contents: " + order.Contents.Count);
+            Library.OrderManager.PlaceOrder(order,GetUserOrderHistory(order.User));
+            //dont know if this will work
+
+            User u = db.User.Find(order.User.UserId);
+            Location l = db.Location.Find(order.Location.LocationId);
+            //Console.WriteLine("the real pepperoni" + order.Location.Inventory[order.Location.Inventory.Keys.Where(a => a.Name == "Pepperoni").First()]);
+            l.Locationingredient = Mapper.Map(order.Location.Inventory);
+            Order o = new Order() { User = u, Location = l, OrderTime = order.OrderTime};
+
+
+            foreach(var pair in order.Contents)
             {
-                //Console.WriteLine("size of contents: " + order.Contents.Count);
-                Library.OrderManager.PlaceOrder(order,GetUserOrderHistory(order.User));
-                //dont know if this will work
-
-                User u = db.User.Find(order.User.UserId);
-                Location l = db.Location.Find(order.Location.LocationId);
-                //Console.WriteLine("the real pepperoni" + order.Location.Inventory[order.Location.Inventory.Keys.Where(a => a.Name == "Pepperoni").First()]);
-                l.Locationingredient = Mapper.Map(order.Location.Inventory);
-                Order o = new Order() { User = u, Location = l, OrderTime = order.OrderTime};
-
-
-                foreach(var pair in order.Contents)
+                Content c = db.Content.Where(a => a.Name == pair.Key.Name).First();
+                if(c == null)
                 {
-                    Content c = db.Content.Where(a => a.Name == pair.Key.Name).First();
-                    if(c == null)
-                    {
-                        c = new Content() { Name=pair.Key.Name,Price= pair.Key.Price};
-                    }
-                    o.OrderContent.Add(new OrderContent() { Order=o,Content=c,Amount=pair.Value});
-
+                    c = new Content() { Name=pair.Key.Name,Price= pair.Key.Price};
                 }
-                db.Order.Add(o);
+                o.OrderContent.Add(new OrderContent() { Order=o,Content=c,Amount=pair.Value});
 
             }
-            catch (BadOrderException e)
-            {
+            db.Order.Add(o);
 
-                //find a way to tell the user this information
-                Console.WriteLine("BIG PROBLEM");
-
-            }
             db.SaveChanges();
             
             //db.Add(Mapper.Map(order));

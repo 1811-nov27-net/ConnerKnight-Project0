@@ -71,7 +71,6 @@ namespace Project0.Library
 
         public void PlaceOrder(Order o, Dictionary<Ingredient, int> orderIngredients)
         {
-            Console.WriteLine("Got here");
             foreach(KeyValuePair<Ingredient,int> pair in orderIngredients)
             {
                 Console.WriteLine(pair.Value);
