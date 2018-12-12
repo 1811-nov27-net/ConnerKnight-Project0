@@ -33,6 +33,7 @@ namespace Project0.App
             input = Console.ReadLine().ToUpper();
             while (!input.StartsWith('Q'))
             {
+                List<Lib.Location> posLoc = repo.GetLocations();
                 if (input.StartsWith('C') || input.StartsWith('U'))
                 {
                     
@@ -42,7 +43,14 @@ namespace Project0.App
                     string lastName = Console.ReadLine();
                     if (input.StartsWith('C'))
                     {
-                        currentUser = new Lib.User(firstName, lastName);
+                        Console.WriteLine("Please enter default location");
+                        foreach (var l in posLoc)
+                        {
+                            Console.WriteLine(l.Name);
+                        }
+                        input = Console.ReadLine();
+                        Lib.Location defaultLocation = posLoc.Where(a => a.Name.Equals(input)).First();
+                        currentUser = new Lib.User() { FirstName = firstName, LastName = lastName, DefaultLocation = defaultLocation  };
                         //adding to database
                         repo.AddUser(currentUser);
                         //Users.Add(currentUser);
@@ -54,6 +62,7 @@ namespace Project0.App
                     
                     Console.WriteLine($"Welcome {currentUser.FirstName} {currentUser.LastName}");
                     Console.WriteLine("Press A to (A)dd Order");
+                    Console.WriteLine("Press F to order (F)avorite");
                     Console.WriteLine("Press H to view Order History");
                     Console.WriteLine("Press B to go (B)ack to Main Menu");
                     input = Console.ReadLine().ToUpper();
@@ -61,7 +70,7 @@ namespace Project0.App
                     {
                         if (input.StartsWith('A'))
                         {
-                            List<Lib.Location> posLoc = repo.GetLocations();
+                            //List<Lib.Location> posLoc = repo.GetLocations();
                             Console.WriteLine("Possible Locations: ");
                             foreach (var l in posLoc)
                             {
@@ -107,10 +116,15 @@ namespace Project0.App
                             }
                             //Console.WriteLine($"placing order for User {currentUser.UserId}");
                             //Console.WriteLine($"placing order for Location {chosenLocation.LocationId}");
-                            Lib.Order ChosenOrder = new Lib.Order(chosenLocation, currentUser, DateTime.Now, chosenPizzas);
+                            Console.WriteLine("how many hours from now would you like to place the order");
+                            input = Console.ReadLine();
+                            int numHours = 0;
+                            int.TryParse(input, out numHours);
+                            Lib.Order ChosenOrder = new Lib.Order(chosenLocation, currentUser, DateTime.Now.AddHours(numHours), chosenPizzas);
                             repo.AddOrder(ChosenOrder);
-                            Console.WriteLine("number of pepperoni: "+ chosenLocation.Inventory[chosenLocation.Inventory.Keys.Where(a=>a.Name == "Pepperoni").First()]);
+                            //Console.WriteLine("number of pepperoni: "+ chosenLocation.Inventory[chosenLocation.Inventory.Keys.Where(a=>a.Name == "Pepperoni").First()]);
                             Console.WriteLine("Order has been Placed");
+                            repo.Save();
                         }
                         else if (input.StartsWith('H'))
                         {
@@ -147,9 +161,16 @@ namespace Project0.App
                                 }
                             }
                         }
-                        
-                        Console.WriteLine("Press A to (A)dd Another Order");
-                        Console.WriteLine("Press O to view Order History");
+                        else if (input.StartsWith('F'))
+                        {
+                            Lib.Order o = currentUser.SuggestedOrder(repo.GetUserOrderHistory(currentUser));
+                            repo.AddOrder(o);
+                            Console.WriteLine("Order has been Placed");
+                        }
+
+                        Console.WriteLine("Press A to (A)dd Order");
+                        Console.WriteLine("Press F to order (F)avorite");
+                        Console.WriteLine("Press H to view Order History");
                         Console.WriteLine("Press B to go (B)ack to Main Menu");
                         input = Console.ReadLine().ToUpper();
                     }

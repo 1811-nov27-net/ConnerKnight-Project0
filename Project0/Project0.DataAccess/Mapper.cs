@@ -67,23 +67,6 @@ namespace Project0.DataAccess
 
         }
 
-        //public static ICollection<OrderContent> Map(ICollection<Library.Pizza> pizzas) => pizzas.Select(Map)
-
-        //public static OrderContent Map(Library.Pizza pizza) =>
-
-
-        //public static ICollection<Locationingredient> Map(Dictionary<Library.Ingredient, int> ingredients)
-        //{}
-
-        public static Library.Order Map(Order order) => new Library.Order
-        {
-
-        };
-
-        public static Order Map(Library.Order order) => new Order
-        {
-
-        };
 
 
     }

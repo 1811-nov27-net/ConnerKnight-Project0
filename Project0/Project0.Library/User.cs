@@ -68,7 +68,7 @@ namespace Project0.Library
             if(orderHistory != null && orderHistory.Count > 0)
             {
                 //return OrderHistory[OrderHistory.Count - 1];
-                var filteredHistory = orderHistory.Where(o => o.User.Equals(this));
+                var filteredHistory = orderHistory.Where(o => o.User.FirstName == FirstName && o.User.LastName == LastName);
 
                 var result = filteredHistory.GroupBy(o => new { o.Location,o.Contents }).OrderByDescending(og => og.Count()).First();
                 return new Order(result.Key.Location, this, DateTime.UtcNow, result.Key.Contents);

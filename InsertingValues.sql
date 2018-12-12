@@ -1,4 +1,13 @@
 
+DELETE FROM PZ.ContentIngredient
+DELETE FROM PZ.Locationingredient
+DELETE FROM PZ.Ingredient
+DELETE FROM PZ.OrderContent
+DELETE FROM PZ.[Order]
+DELETE FROM PZ.Content
+DELETE FROM PZ.[User]
+DELETE FROM PZ.[Location]
+
 INSERT INTO PZ.Content(Name, Price)
 VALUES ('Cheese Pizza', 10.99),
 ('Pepperoni Pizza', 13.99),

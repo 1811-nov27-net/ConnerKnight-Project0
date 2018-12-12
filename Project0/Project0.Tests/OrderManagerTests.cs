@@ -100,20 +100,22 @@ namespace Project0.Tests
             Dictionary<Pizza, int> oFood8 = new Dictionary<Pizza, int>() { { p3, 3 } };
             Order o8 = new Order(l, u, d3, oFood8);
 
-            OrderManager.PlaceOrder(o1);
+            List<Order> orderHistory = new List<Order>();
+            OrderManager.PlaceOrder(o1,orderHistory);
+            orderHistory.Add(o1);
             //Action act = () => OrderManager.PlaceOrder(o2);
             //throws an exception because order 2 is within 2 hours of order 1
-            Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o2));
+            Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o2,orderHistory));
             //throws an exception because order 4 has more then 12 items
-            Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o4));
+            Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o4, orderHistory));
             //throws an exception because order 5 price is more then $500
-            Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o5));
+            Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o5, orderHistory));
             //**** not going to test thisthrows an exception because order 6 has a null element in it's content
             //Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o6));
             //throws an exception because this restaurant doesn't have jalapenos
-            Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o7));
+            Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o7, orderHistory));
             //throws an exception because this restaurant is out of marshmellows
-            Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o8));
+            Assert.Throws<BadOrderException>(() => OrderManager.PlaceOrder(o8, orderHistory));
 
 
 

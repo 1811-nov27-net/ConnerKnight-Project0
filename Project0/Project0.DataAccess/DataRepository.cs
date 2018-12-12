@@ -7,7 +7,7 @@ using Project0.Library;
 
 namespace Project0.DataAccess
 {
-    public class DataRepository
+    public class DataRepository : Library.IDataRepository
     {
         private readonly Project0Context db;
 
@@ -61,15 +61,15 @@ namespace Project0.DataAccess
         {
             try
             {
-                Console.WriteLine("size of contents: " + order.Contents.Count);
-                Library.OrderManager.PlaceOrder(order);
+                //Console.WriteLine("size of contents: " + order.Contents.Count);
+                Library.OrderManager.PlaceOrder(order,GetUserOrderHistory(order.User));
                 //dont know if this will work
 
                 User u = db.User.Find(order.User.UserId);
                 Location l = db.Location.Find(order.Location.LocationId);
-                Console.WriteLine("the real pepperoni" + order.Location.Inventory[order.Location.Inventory.Keys.Where(a => a.Name == "Pepperoni").First()]);
+                //Console.WriteLine("the real pepperoni" + order.Location.Inventory[order.Location.Inventory.Keys.Where(a => a.Name == "Pepperoni").First()]);
                 l.Locationingredient = Mapper.Map(order.Location.Inventory);
-                Order o = new Order() { User = u, Location = l };
+                Order o = new Order() { User = u, Location = l, OrderTime = order.OrderTime};
 
 
                 foreach(var pair in order.Contents)
@@ -161,10 +161,6 @@ namespace Project0.DataAccess
             return db.Ingredient.Select(a => new Library.Ingredient() { Name = a.Name, IngredientId = a.IngredientId }).ToList();
         }
 
-        public List<Ingredient> GetIngredients2()
-        {
-            return db.Ingredient.ToList();
-        }
 
         public List<Library.Order> GetUserOrderHistory(Library.User user)
         {
@@ -194,7 +190,7 @@ namespace Project0.DataAccess
                     pizzas[p] = oc.Amount ?? 0;
                 }
 
-                Library.Order tempOrder = new Library.Order() { User = u, Location = l, Contents = pizzas };
+                Library.Order tempOrder = new Library.Order() { OrderId = o.OrderId,User = u, Location = l, Contents = pizzas, OrderTime = o.OrderTime ?? DateTime.Now };
                 result.Add(tempOrder);
             }
 

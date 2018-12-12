@@ -11,12 +11,12 @@ namespace Project0.Library
     public static class OrderManager
     {
 
-        public static void PlaceOrder(Order o)
+        public static void PlaceOrder(Order o, List<Order> orderHistory)
         {
             //checking to make sure the order wasn't placed within 2 hours of an order to the same location for the user
             double twoHoursInSeconds = 60 * 60 * 2;
-            bool checkUserOrder = o.User.OrderHistory.Where(a => Math.Abs(a.OrderTime.Subtract(o.OrderTime).TotalSeconds) < (twoHoursInSeconds))
-                .Any(b => b.Location.Equals(o.Location));
+            bool checkUserOrder = orderHistory.Where(a => Math.Abs(a.OrderTime.Subtract(o.OrderTime).TotalSeconds) < (twoHoursInSeconds))
+                .Any(b => b.Location.Equals(o.Location) && b.User.Equals(o.User));
             if (checkUserOrder)
             {
                 throw new BadOrderException("order was placed within two hours of another order at the same location");
